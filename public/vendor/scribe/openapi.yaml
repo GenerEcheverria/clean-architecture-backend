@@ -1,0 +1,1103 @@
+openapi: 3.0.3
+info:
+  title: WAAS-MultimediaCMS
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+paths:
+  /api/auth/login:
+    post:
+      summary: 'Handle user login.'
+      operationId: handleUserLogin
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/auth/register:
+    post:
+      summary: 'Register a new user.'
+      operationId: registerANewUser
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: maxime
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 100 characters.'
+                  example: johnny00@example.com
+                password:
+                  type: string
+                  description: 'Must be at least 6 characters.'
+                  example: 'XDi8EeA^{'
+                role:
+                  type: string
+                  description: ''
+                  example: perferendis
+                phone:
+                  type: string
+                  description: ''
+                  example: rerum
+                photo:
+                  type: string
+                  description: ''
+                  example: itaque
+              required:
+                - name
+                - email
+                - password
+                - role
+                - phone
+                - photo
+      security: []
+  /api/auth/logout:
+    post:
+      summary: 'Log the user out (Invalidate the token).'
+      operationId: logTheUserOutInvalidateTheToken
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/auth/refresh:
+    post:
+      summary: 'Refresh a token.'
+      operationId: refreshAToken
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/auth/me:
+    post:
+      summary: 'Get the authenticated user.'
+      operationId: getTheAuthenticatedUser
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/auth/check:
+    get:
+      summary: 'Check the validity of a token.'
+      operationId: checkTheValidityOfAToken
+      description: ''
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  valid: false
+                properties:
+                  valid:
+                    type: boolean
+                    example: false
+      tags:
+        - Endpoints
+      security: []
+  /api/account/users:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/api/account/users/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the user.'
+        example: 3
+        required: true
+        schema:
+          type: integer
+  /api/media/sites:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newCrearSitio:
+                  type: object
+                  description: ''
+                  example: []
+                  properties:
+                    name:
+                      type: string
+                      description: ''
+                      example: iure
+                    backgroundColor:
+                      type: string
+                      description: ''
+                      example: et
+                    views:
+                      type: integer
+                      description: ''
+                      example: 16
+                    url:
+                      type: string
+                      description: ''
+                      example: 'https://www.oberbrunner.com/non-voluptatum-eos-voluptate-quam-voluptatem-odit'
+      security: []
+  /api/media/mySites:
+    get:
+      summary: 'Get sites for the current user.'
+      operationId: getSitesForTheCurrentUser
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/api/media/site/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: doloremque
+                backgroundColor:
+                  type: string
+                  description: ''
+                  example: earum
+                views:
+                  type: integer
+                  description: ''
+                  example: 12
+                url:
+                  type: string
+                  description: ''
+                  example: 'https://gutmann.com/ipsam-dolor-natus-quam-est.html'
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the site.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/user:
+    get:
+      summary: ''
+      operationId: getApiUser
+      description: ''
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Auth guard [web] is not defined.'
+                  exception: InvalidArgumentException
+                  file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Auth\AuthManager.php'
+                  line: 86
+                  trace:
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Auth\AuthManager.php'
+                      line: 70
+                      function: resolve
+                      class: Illuminate\Auth\AuthManager
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\sanctum\src\Guard.php'
+                      line: 57
+                      function: guard
+                      class: Illuminate\Auth\AuthManager
+                      type: '->'
+                    -
+                      function: __invoke
+                      class: Laravel\Sanctum\Guard
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Auth\RequestGuard.php'
+                      line: 57
+                      function: call_user_func
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Auth\GuardHelpers.php'
+                      line: 60
+                      function: user
+                      class: Illuminate\Auth\RequestGuard
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Auth\Middleware\Authenticate.php'
+                      line: 76
+                      function: check
+                      class: Illuminate\Auth\RequestGuard
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Auth\Middleware\Authenticate.php'
+                      line: 55
+                      function: authenticate
+                      class: Illuminate\Auth\Middleware\Authenticate
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                      line: 180
+                      function: handle
+                      class: Illuminate\Auth\Middleware\Authenticate
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                      line: 116
+                      function: 'Illuminate\Pipeline\{closure}'
+                      class: Illuminate\Pipeline\Pipeline
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Routing\Router.php'
+                      line: 797
+                      function: then
+                      class: Illuminate\Pipeline\Pipeline
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Routing\Router.php'
+                      line: 776
+                      function: runRouteWithinStack
+                      class: Illuminate\Routing\Router
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Routing\Router.php'
+                      line: 740
+                      function: runRoute
+                      class: Illuminate\Routing\Router
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Routing\Router.php'
+                      line: 729
+                      function: dispatchToRoute
+                      class: Illuminate\Routing\Router
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php'
+                      line: 200
+                      function: dispatch
+                      class: Illuminate\Routing\Router
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                      line: 141
+                      function: 'Illuminate\Foundation\Http\{closure}'
+                      class: Illuminate\Foundation\Http\Kernel
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php'
+                      line: 21
+                      function: 'Illuminate\Pipeline\{closure}'
+                      class: Illuminate\Pipeline\Pipeline
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php'
+                      line: 31
+                      function: handle
+                      class: Illuminate\Foundation\Http\Middleware\TransformsRequest
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                      line: 180
+                      function: handle
+                      class: Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\app\Http\Middleware\CorsMiddleware.php'
+                      line: 13
+                      function: 'Illuminate\Pipeline\{closure}'
+                      class: Illuminate\Pipeline\Pipeline
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                      line: 180
+                      function: handle
+                      class: App\Http\Middleware\CorsMiddleware
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php'
+                      line: 21
+                      function: 'Illuminate\Pipeline\{closure}'
+                      class: Illuminate\Pipeline\Pipeline
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php'
+                      line: 40
+                      function: handle
+                      class: Illuminate\Foundation\Http\Middleware\TransformsRequest
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                      line: 180
+                      function: handle
+                      class: Illuminate\Foundation\Http\Middleware\TrimStrings
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ValidatePostSize.php'
+                      line: 27
+                      function: 'Illuminate\Pipeline\{closure}'
+                      class: Illuminate\Pipeline\Pipeline
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                      line: 180
+                      function: handle
+                      class: Illuminate\Foundation\Http\Middleware\ValidatePostSize
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance.php'
+                      line: 86
+                      function: 'Illuminate\Pipeline\{closure}'
+                      class: Illuminate\Pipeline\Pipeline
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                      line: 180
+                      function: handle
+                      class: Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php'
+                      line: 62
+                      function: 'Illuminate\Pipeline\{closure}'
+                      class: Illuminate\Pipeline\Pipeline
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                      line: 180
+                      function: handle
+                      class: Illuminate\Http\Middleware\HandleCors
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php'
+                      line: 39
+                      function: 'Illuminate\Pipeline\{closure}'
+                      class: Illuminate\Pipeline\Pipeline
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                      line: 180
+                      function: handle
+                      class: Illuminate\Http\Middleware\TrustProxies
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                      line: 116
+                      function: 'Illuminate\Pipeline\{closure}'
+                      class: Illuminate\Pipeline\Pipeline
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php'
+                      line: 175
+                      function: then
+                      class: Illuminate\Pipeline\Pipeline
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php'
+                      line: 144
+                      function: sendRequestThroughRouter
+                      class: Illuminate\Foundation\Http\Kernel
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
+                      line: 299
+                      function: handle
+                      class: Illuminate\Foundation\Http\Kernel
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
+                      line: 287
+                      function: callLaravelOrLumenRoute
+                      class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
+                      line: 92
+                      function: makeApiCall
+                      class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
+                      line: 45
+                      function: makeResponseCall
+                      class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
+                      line: 35
+                      function: makeResponseCallIfConditionsPass
+                      class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Extracting\Extractor.php'
+                      line: 209
+                      function: __invoke
+                      class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Extracting\Extractor.php'
+                      line: 163
+                      function: iterateThroughStrategies
+                      class: Knuckles\Scribe\Extracting\Extractor
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Extracting\Extractor.php'
+                      line: 95
+                      function: fetchResponses
+                      class: Knuckles\Scribe\Extracting\Extractor
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\GroupedEndpoints\GroupedEndpointsFromApp.php'
+                      line: 124
+                      function: processRoute
+                      class: Knuckles\Scribe\Extracting\Extractor
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\GroupedEndpoints\GroupedEndpointsFromApp.php'
+                      line: 71
+                      function: extractEndpointsInfoFromLaravelApp
+                      class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\GroupedEndpoints\GroupedEndpointsFromApp.php'
+                      line: 49
+                      function: extractEndpointsInfoAndWriteToDisk
+                      class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Commands\GenerateDocumentation.php'
+                      line: 51
+                      function: get
+                      class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php'
+                      line: 36
+                      function: handle
+                      class: Knuckles\Scribe\Commands\GenerateDocumentation
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Container\Util.php'
+                      line: 41
+                      function: 'Illuminate\Container\{closure}'
+                      class: Illuminate\Container\BoundMethod
+                      type: '::'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php'
+                      line: 93
+                      function: unwrapIfClosure
+                      class: Illuminate\Container\Util
+                      type: '::'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php'
+                      line: 35
+                      function: callBoundMethod
+                      class: Illuminate\Container\BoundMethod
+                      type: '::'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Container\Container.php'
+                      line: 662
+                      function: call
+                      class: Illuminate\Container\BoundMethod
+                      type: '::'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Console\Command.php'
+                      line: 208
+                      function: call
+                      class: Illuminate\Container\Container
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\symfony\console\Command\Command.php'
+                      line: 312
+                      function: execute
+                      class: Illuminate\Console\Command
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Console\Command.php'
+                      line: 177
+                      function: run
+                      class: Symfony\Component\Console\Command\Command
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\symfony\console\Application.php'
+                      line: 1040
+                      function: run
+                      class: Illuminate\Console\Command
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\symfony\console\Application.php'
+                      line: 314
+                      function: doRunCommand
+                      class: Symfony\Component\Console\Application
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\symfony\console\Application.php'
+                      line: 168
+                      function: doRun
+                      class: Symfony\Component\Console\Application
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php'
+                      line: 200
+                      function: run
+                      class: Symfony\Component\Console\Application
+                      type: '->'
+                    -
+                      file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\artisan'
+                      line: 35
+                      function: handle
+                      class: Illuminate\Foundation\Console\Kernel
+                      type: '->'
+                properties:
+                  message:
+                    type: string
+                    example: 'Auth guard [web] is not defined.'
+                  exception:
+                    type: string
+                    example: InvalidArgumentException
+                  file:
+                    type: string
+                    example: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Auth\AuthManager.php'
+                  line:
+                    type: integer
+                    example: 86
+                  trace:
+                    type: array
+                    example:
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Auth\AuthManager.php'
+                        line: 70
+                        function: resolve
+                        class: Illuminate\Auth\AuthManager
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\sanctum\src\Guard.php'
+                        line: 57
+                        function: guard
+                        class: Illuminate\Auth\AuthManager
+                        type: '->'
+                      -
+                        function: __invoke
+                        class: Laravel\Sanctum\Guard
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Auth\RequestGuard.php'
+                        line: 57
+                        function: call_user_func
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Auth\GuardHelpers.php'
+                        line: 60
+                        function: user
+                        class: Illuminate\Auth\RequestGuard
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Auth\Middleware\Authenticate.php'
+                        line: 76
+                        function: check
+                        class: Illuminate\Auth\RequestGuard
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Auth\Middleware\Authenticate.php'
+                        line: 55
+                        function: authenticate
+                        class: Illuminate\Auth\Middleware\Authenticate
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                        line: 180
+                        function: handle
+                        class: Illuminate\Auth\Middleware\Authenticate
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                        line: 116
+                        function: 'Illuminate\Pipeline\{closure}'
+                        class: Illuminate\Pipeline\Pipeline
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Routing\Router.php'
+                        line: 797
+                        function: then
+                        class: Illuminate\Pipeline\Pipeline
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Routing\Router.php'
+                        line: 776
+                        function: runRouteWithinStack
+                        class: Illuminate\Routing\Router
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Routing\Router.php'
+                        line: 740
+                        function: runRoute
+                        class: Illuminate\Routing\Router
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Routing\Router.php'
+                        line: 729
+                        function: dispatchToRoute
+                        class: Illuminate\Routing\Router
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php'
+                        line: 200
+                        function: dispatch
+                        class: Illuminate\Routing\Router
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                        line: 141
+                        function: 'Illuminate\Foundation\Http\{closure}'
+                        class: Illuminate\Foundation\Http\Kernel
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php'
+                        line: 21
+                        function: 'Illuminate\Pipeline\{closure}'
+                        class: Illuminate\Pipeline\Pipeline
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php'
+                        line: 31
+                        function: handle
+                        class: Illuminate\Foundation\Http\Middleware\TransformsRequest
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                        line: 180
+                        function: handle
+                        class: Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\app\Http\Middleware\CorsMiddleware.php'
+                        line: 13
+                        function: 'Illuminate\Pipeline\{closure}'
+                        class: Illuminate\Pipeline\Pipeline
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                        line: 180
+                        function: handle
+                        class: App\Http\Middleware\CorsMiddleware
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php'
+                        line: 21
+                        function: 'Illuminate\Pipeline\{closure}'
+                        class: Illuminate\Pipeline\Pipeline
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php'
+                        line: 40
+                        function: handle
+                        class: Illuminate\Foundation\Http\Middleware\TransformsRequest
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                        line: 180
+                        function: handle
+                        class: Illuminate\Foundation\Http\Middleware\TrimStrings
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ValidatePostSize.php'
+                        line: 27
+                        function: 'Illuminate\Pipeline\{closure}'
+                        class: Illuminate\Pipeline\Pipeline
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                        line: 180
+                        function: handle
+                        class: Illuminate\Foundation\Http\Middleware\ValidatePostSize
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance.php'
+                        line: 86
+                        function: 'Illuminate\Pipeline\{closure}'
+                        class: Illuminate\Pipeline\Pipeline
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                        line: 180
+                        function: handle
+                        class: Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php'
+                        line: 62
+                        function: 'Illuminate\Pipeline\{closure}'
+                        class: Illuminate\Pipeline\Pipeline
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                        line: 180
+                        function: handle
+                        class: Illuminate\Http\Middleware\HandleCors
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php'
+                        line: 39
+                        function: 'Illuminate\Pipeline\{closure}'
+                        class: Illuminate\Pipeline\Pipeline
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                        line: 180
+                        function: handle
+                        class: Illuminate\Http\Middleware\TrustProxies
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
+                        line: 116
+                        function: 'Illuminate\Pipeline\{closure}'
+                        class: Illuminate\Pipeline\Pipeline
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php'
+                        line: 175
+                        function: then
+                        class: Illuminate\Pipeline\Pipeline
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php'
+                        line: 144
+                        function: sendRequestThroughRouter
+                        class: Illuminate\Foundation\Http\Kernel
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
+                        line: 299
+                        function: handle
+                        class: Illuminate\Foundation\Http\Kernel
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
+                        line: 287
+                        function: callLaravelOrLumenRoute
+                        class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
+                        line: 92
+                        function: makeApiCall
+                        class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
+                        line: 45
+                        function: makeResponseCall
+                        class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
+                        line: 35
+                        function: makeResponseCallIfConditionsPass
+                        class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Extracting\Extractor.php'
+                        line: 209
+                        function: __invoke
+                        class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Extracting\Extractor.php'
+                        line: 163
+                        function: iterateThroughStrategies
+                        class: Knuckles\Scribe\Extracting\Extractor
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Extracting\Extractor.php'
+                        line: 95
+                        function: fetchResponses
+                        class: Knuckles\Scribe\Extracting\Extractor
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\GroupedEndpoints\GroupedEndpointsFromApp.php'
+                        line: 124
+                        function: processRoute
+                        class: Knuckles\Scribe\Extracting\Extractor
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\GroupedEndpoints\GroupedEndpointsFromApp.php'
+                        line: 71
+                        function: extractEndpointsInfoFromLaravelApp
+                        class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\GroupedEndpoints\GroupedEndpointsFromApp.php'
+                        line: 49
+                        function: extractEndpointsInfoAndWriteToDisk
+                        class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\knuckleswtf\scribe\src\Commands\GenerateDocumentation.php'
+                        line: 51
+                        function: get
+                        class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php'
+                        line: 36
+                        function: handle
+                        class: Knuckles\Scribe\Commands\GenerateDocumentation
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Container\Util.php'
+                        line: 41
+                        function: 'Illuminate\Container\{closure}'
+                        class: Illuminate\Container\BoundMethod
+                        type: '::'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php'
+                        line: 93
+                        function: unwrapIfClosure
+                        class: Illuminate\Container\Util
+                        type: '::'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php'
+                        line: 35
+                        function: callBoundMethod
+                        class: Illuminate\Container\BoundMethod
+                        type: '::'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Container\Container.php'
+                        line: 662
+                        function: call
+                        class: Illuminate\Container\BoundMethod
+                        type: '::'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Console\Command.php'
+                        line: 208
+                        function: call
+                        class: Illuminate\Container\Container
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\symfony\console\Command\Command.php'
+                        line: 312
+                        function: execute
+                        class: Illuminate\Console\Command
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Console\Command.php'
+                        line: 177
+                        function: run
+                        class: Symfony\Component\Console\Command\Command
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\symfony\console\Application.php'
+                        line: 1040
+                        function: run
+                        class: Illuminate\Console\Command
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\symfony\console\Application.php'
+                        line: 314
+                        function: doRunCommand
+                        class: Symfony\Component\Console\Application
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\symfony\console\Application.php'
+                        line: 168
+                        function: doRun
+                        class: Symfony\Component\Console\Application
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php'
+                        line: 200
+                        function: run
+                        class: Symfony\Component\Console\Application
+                        type: '->'
+                      -
+                        file: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\artisan'
+                        line: 35
+                        function: handle
+                        class: Illuminate\Foundation\Console\Kernel
+                        type: '->'
+                    items:
+                      type: object
+                      properties:
+                        file:
+                          type: string
+                          example: 'F:\Programas\Xampp\htdocs\WAAS-MultimediaCMS\backend\vendor\laravel\framework\src\Illuminate\Auth\AuthManager.php'
+                        line:
+                          type: integer
+                          example: 70
+                        function:
+                          type: string
+                          example: resolve
+                        class:
+                          type: string
+                          example: Illuminate\Auth\AuthManager
+                        type:
+                          type: string
+                          example: '->'
+      tags:
+        - Endpoints
+      security: []
+tags:
+  -
+    name: Endpoints
+    description: ''
