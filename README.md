@@ -9,9 +9,10 @@
 
 ## Setup
 
-1. Instalar dependencias: composer install
-2. Configurar el entorno e iniciar servidor: php artisan setup
-    - Iniciar el servidor por separado: php artisan serve
+1. Instalar dependencias con `composer install`
+2. Configurar el entorno e iniciar servidor con  `php artisan setup`
+    - Iniciar el servidor por separado con `php artisan serve`
+    - Para ver los comandos checar `app\Console\Commands\Setup.php`
 
 ## About Laravel
 
