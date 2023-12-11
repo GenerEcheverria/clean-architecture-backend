@@ -17,17 +17,15 @@ class UserSeeder extends Seeder
             'name' => 'SA',
             "email"=>"albaficas@gmail.com",
             'password' => '$2y$10$06bfQ6iUQeaZn6v1jPFfBexFI3nT1AC94oktN6BAIlr4t7x5jteJq',
-            "role"=>"superadmin",
+            "role"=>"Admin",
             "phone"=> "9991732101",
-            "photo"=>"../../../assets/images/default-user.png"
         ]);
         User::create([
             'name' => 'Gener Echeverria',
             "email"=>"gener.echeverria@gmail.com",
             'password' => '$2y$10$06bfQ6iUQeaZn6v1jPFfBexFI3nT1AC94oktN6BAIlr4t7x5jteJq',
-            "role"=>"admin",
+            "role"=>"Client",
             "phone"=> "9991732101",
-            "photo"=>"../../../assets/users/generceo.png"
         ]);
     }
 }

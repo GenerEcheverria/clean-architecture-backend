@@ -21,7 +21,6 @@ Route::group([
     Route::post('login', 'App\Http\Controllers\AuthController@login');
 
     // Endpoint para registrar un usuario
-    Route::post('register', 'App\Http\Controllers\AuthController@register');
 
     // Endpoint para cerrar sesión
     Route::post('logout', 'App\Http\Controllers\AuthController@logout');
@@ -42,6 +41,8 @@ Route::group([
 ], function ($router) {
     Route::get('sausers', 'App\Http\Controllers\UserController@getSaUsers');
     Route::get('users', 'App\Http\Controllers\UserController@index');
+    
+    Route::post('register', 'App\Http\Controllers\UserController@register');
 
     // Endpoint para obtener un usuario específico por ID
     Route::get('users/{id}', 'App\Http\Controllers\UserController@show');

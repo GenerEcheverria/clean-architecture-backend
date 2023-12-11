@@ -3,12 +3,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Store\RealClientStore;
+use Core\UseCases\RegisterClient;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api', ['except' => ['register']]);
     }
 
     /**
@@ -21,11 +24,22 @@ class UserController extends Controller
         return User::all();
     }
 
-    //REGISTER
-    
-
-
-
+    public function register(Request $request, RealClientStore $realClientStore)
+    {
+        try {
+            $registerClient = new RegisterClient($realClientStore);
+            $user = $registerClient->execute($request->all());
+            return response()->json([
+                'message' => 'Successfully created',
+                'user' => $user
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'User Registration Failed!',
+                'error' => $e->getMessage()
+            ], 409);
+        }
+    }
 
     /**
      * Display the specified user.
