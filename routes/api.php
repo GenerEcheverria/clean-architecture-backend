@@ -66,13 +66,9 @@ Route::group([
     // Endpoint para obtener los sitios del usuario actual
     Route::get('mySites', 'App\Http\Controllers\SiteController@getSitesForCurrentUser');
     Route::post('updateState', 'App\Http\Controllers\SiteController@updateState');
-    Route::get('userSites/{id}', 'App\Http\Controllers\SiteController@getSitesForUser');
+    Route::get('userSites/{id}', 'App\Http\Controllers\SiteController@getSites');
     Route::get('site/{id}', 'App\Http\Controllers\SiteController@show');
     Route::get('id/{url}', 'App\Http\Controllers\SiteController@getIdSite');
-    Route::put('site/{id}', 'App\Http\Controllers\SiteController@update');
-
-    // Endpoint para eliminar un sitio específico por ID
-    Route::delete('site/{id}', 'App\Http\Controllers\SiteController@destroy');
 });
 
 // Endpoint para obtener los datos del usuario autenticado
