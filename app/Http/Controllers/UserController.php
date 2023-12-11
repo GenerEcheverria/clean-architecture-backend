@@ -21,7 +21,12 @@ class UserController extends Controller
         return User::all();
     }
 
+    //REGISTER
     
+
+
+
+
     /**
      * Display the specified user.
      *
