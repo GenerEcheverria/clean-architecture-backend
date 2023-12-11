@@ -2,7 +2,6 @@
 
 namespace Core\UseCases;
 
-use App\Models\User;
 use Core\Entities\UserDTO;
 use Core\Interfaces\UserStore;
 use Illuminate\Support\Facades\Validator;
@@ -71,5 +70,9 @@ class Users
             $user->phone
         );
         $this->userStore->update($userDTO, $id);
+    }
+
+    public function delete($id): bool{
+        return $this->userStore->delete($id);
     }
 }

@@ -39,19 +39,15 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'account'
 ], function ($router) {
-    Route::get('sausers', 'App\Http\Controllers\UserController@getSaUsers');
     Route::get('users', 'App\Http\Controllers\UserController@index');
-    
     Route::post('register', 'App\Http\Controllers\UserController@register');
-
-    // Endpoint para obtener un usuario específico por ID
     Route::get('users/{id}', 'App\Http\Controllers\UserController@show');
-
-    // Endpoint para actualizar un usuario específico por ID
     Route::put('users/{id}', 'App\Http\Controllers\UserController@update');
-
-    // Endpoint para eliminar un usuario específico por ID
     Route::delete('users/{id}', 'App\Http\Controllers\UserController@destroy');
+    
+    
+    Route::get('sausers', 'App\Http\Controllers\UserController@getSaUsers');
+    
 });
 
 Route::group([

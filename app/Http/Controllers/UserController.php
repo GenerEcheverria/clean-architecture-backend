@@ -55,36 +55,12 @@ class UserController extends Controller
                 "error" => "User not found out",
             ], 404);
         }
-
-        
     }
-    // public function update(Request $request, string $id, RealUserStore $realUserStore)
-    // {
-    //     try {
-    //         $users = new Users($realUserStore);
-    //         $users->update($request->all(), $id);
-    //         return response()->json([
-    //             "message" => "User updated successfully",
-    //         ], 200);
-    //     } catch (\Exception $error) {
-    //         return response()->json([
-    //             "error" => "User not found",
-    //         ], 404);
-    //     }
-    // }
 
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  string  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(string $id)
+    public function destroy(string $id,RealUserStore $realUserStore)
     {
-        if (User::where('id', $id)->exists()) {
-            $user = User::find($id);
-            $user->delete();
+        $users = new Users($realUserStore);
+        if ($users->delete($id)) {
             return response()->json([
                 "message" => "User deleted successfully",
             ], 202);
@@ -110,35 +86,29 @@ class UserController extends Controller
     }
 
 
-    /**
-     * Get sites for a specific user.
-     *
-     * @param  string  $userId
-     * @return \Illuminate\Http\JsonResponse
-     */
+   //PARECE QUE NO SE USAN
 
+    // public function getSitesForUser($userId)
+    // {
+    //     $user = User::findOrFail($userId);
+    //     $sites = $user->sites;
 
-    public function getSitesForUser($userId)
-    {
-        $user = User::findOrFail($userId);
-        $sites = $user->sites;
+    //     return response()->json([
+    //         'sites' => $sites
+    //     ], 200);
+    // }
 
-        return response()->json([
-            'sites' => $sites
-        ], 200);
-    }
+    // /**
+    //  * Get the number of sites for a specific user.
+    //  *
+    //  * @param  string  $userId
+    //  * @return int
+    //  */
+    // public function getnumSitesForUser($userId)
+    // {
+    //     $user = User::findOrFail($userId);
+    //     $siteCount = $user->sites()->count();
 
-    /**
-     * Get the number of sites for a specific user.
-     *
-     * @param  string  $userId
-     * @return int
-     */
-    public function getnumSitesForUser($userId)
-    {
-        $user = User::findOrFail($userId);
-        $siteCount = $user->sites()->count();
-
-        return $siteCount;
-    }
+    //     return $siteCount;
+    // }
 }

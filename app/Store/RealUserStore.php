@@ -42,4 +42,14 @@ class RealUserStore implements UserStore
         $user->phone = $client->phone;
         $user->save();
     }
+
+    public function delete(int $id): bool
+    {
+        if (User::where('id', $id)->exists()) {
+            $user = User::find($id);
+            $user->delete();
+            return true;
+        }
+        return false;
+    }
 }
