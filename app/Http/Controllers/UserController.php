@@ -1,11 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Store\RealClientStore;
-use Core\UseCases\RegisterClient;
-use Illuminate\Support\Facades\Validator;
+use App\Store\RealUserStore;
+use Core\UseCases\Users;
 
 class UserController extends Controller
 {
@@ -14,24 +14,20 @@ class UserController extends Controller
         $this->middleware('auth:api', ['except' => ['register']]);
     }
 
-    /**
-     * Display a listing of the users.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(RealUserStore $realUserStore)
     {
-        return User::all();
+        $users = new Users($realUserStore);
+        return $users->getAll();
     }
 
-    public function register(Request $request, RealClientStore $realClientStore)
+    public function register(Request $request, RealUserStore $realUserStore)
     {
         try {
-            $registerClient = new RegisterClient($realClientStore);
-            $user = $registerClient->execute($request->all());
+            $users = new Users($realUserStore);
+            $registeredUser = $users->register($request->all());
             return response()->json([
                 'message' => 'Successfully created',
-                'user' => $user
+                'user' => $registeredUser
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
@@ -40,58 +36,43 @@ class UserController extends Controller
             ], 409);
         }
     }
-
-    /**
-     * Display the specified user.
-     *
-     * @param  string  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(string $id)
+    public function show(string $id, RealUserStore $realUserStore)
     {
-        return User::find($id);
+        $users = new Users($realUserStore);
+        return $users->getById($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id, RealUserStore $realUserStore)
     {
-        if (User::where("id", $id)->exists()) {
-            $user = User::find($id);
-            // $user->fill($request->only([
-            //     'user.name',
-            //     'user.email',
-            //     'user.phone'
-            // ]));
-            if ($request->has('cuenta.nombre')) {
-                $user->name =  $request->input('cuenta.nombre');
-                $user->email =  $request->input('cuenta.email');
-                $user->phone =  $request->input('cuenta.tel');
-            }
-
-            if ($request->has('cuenta.cpass')) {
-                $user->password = bcrypt($request->input('cuenta.cpass'));
-            }
-            $pass = $request->input('cuenta.cpass');
-
-            $user->save();
-
+        try {
+            $users = new Users($realUserStore);
+            $users->update($request->all(), $id);
             return response()->json([
                 "message" => "User updated successfully",
-                'user' => $user,
-                'newpassword' => $pass
             ], 200);
-        } else {
+        } catch (\Exception $error) {
             return response()->json([
-                "error" => "User not found",
+                "error" => "User not found out",
             ], 404);
         }
+
+        
     }
+    // public function update(Request $request, string $id, RealUserStore $realUserStore)
+    // {
+    //     try {
+    //         $users = new Users($realUserStore);
+    //         $users->update($request->all(), $id);
+    //         return response()->json([
+    //             "message" => "User updated successfully",
+    //         ], 200);
+    //     } catch (\Exception $error) {
+    //         return response()->json([
+    //             "error" => "User not found",
+    //         ], 404);
+    //     }
+    // }
+
 
     /**
      * Remove the specified resource from storage.

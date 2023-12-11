@@ -1,7 +1,7 @@
 <?php
 namespace Core\Entities;
 
-class ClientDTO
+class UserDTO
 {
     public $name;
     public $email;
