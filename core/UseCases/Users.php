@@ -54,29 +54,22 @@ class Users
 
     public function update(array $userData, $id)
     {
-        if (User::where("id", $id)->exists()) {
-            $user = User::find($id);
-            if (isset($userData["client"]["name"])) {
-                echo $user;
-                $user->name =  $userData["client"]["name"];
-                $user->email =  $userData["client"]["email"];
-                $user->phone =  $userData["client"]["phone"];
-                echo $user;
-            }
-
-            if (isset($userData["client"]["password"])) {
-                $user->password = bcrypt($userData["client"]["password"]);
-            }
-            $user->save();
-
-            return response()->json([
-                "message" => "User updated successfully",
-                'user' => $user,
-            ], 200);
-        } else {
-            return response()->json([
-                "error" => "User not found in",
-            ], 404);
+        $user = $this->userStore->getById($id);
+        if (isset($userData["client"]["name"])) {
+            $user->name =  $userData["client"]["name"];
+            $user->email =  $userData["client"]["email"];
+            $user->phone =  $userData["client"]["phone"];
         }
+        if (isset($userData["client"]["newPassword"])) {
+            $user->password = bcrypt($userData["client"]["newPassword"]);
+        }
+        $userDTO = new UserDTO(
+            $user->name,
+            $user->email,
+            $user->password,
+            $user->role,
+            $user->phone
+        );
+        $this->userStore->update($userDTO, $id);
     }
 }
