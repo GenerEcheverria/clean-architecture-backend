@@ -2,17 +2,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
@@ -46,7 +35,7 @@ Route::group([
     Route::delete('users/{id}', 'App\Http\Controllers\UserController@destroy');
     
     
-    Route::get('sausers', 'App\Http\Controllers\UserController@getSaUsers');
+    Route::get('admins', 'App\Http\Controllers\AdminController@index');
     
 });
 
@@ -54,13 +43,8 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'media'
 ], function ($router){
-    // Endpoint para obtener todos los sitios
     Route::get('sites', 'App\Http\Controllers\SiteController@index');
-
-    // Endpoint para crear un nuevo sitio
     Route::post('sites', 'App\Http\Controllers\SiteController@store');
-
-    // Endpoint para obtener los sitios del usuario actual
     Route::get('mySites', 'App\Http\Controllers\SiteController@getSitesForCurrentUser');
     Route::post('updateState', 'App\Http\Controllers\SiteController@updateState');
     Route::get('userSites/{id}', 'App\Http\Controllers\SiteController@getSites');
@@ -68,7 +52,6 @@ Route::group([
     Route::get('id/{url}', 'App\Http\Controllers\SiteController@getIdSite');
 });
 
-// Endpoint para obtener los datos del usuario autenticado
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

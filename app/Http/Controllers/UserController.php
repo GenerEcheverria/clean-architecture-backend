@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Store\RealUserStore;
 use Core\UseCases\Users;
 
@@ -69,20 +68,6 @@ class UserController extends Controller
                 "error" => "User not found",
             ], 404);
         }
-    }
-
-    /**
-     * Get SA users.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getSaUsers(Request $request)
-    {
-        $users = User::select('id', 'name')
-            ->where('role', 'admin')
-            ->get();
-        return response()->json($users, 200);
     }
 
 

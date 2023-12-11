@@ -16,14 +16,14 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'SA',
             "email"=>"albaficas@gmail.com",
-            'password' => '$2y$10$06bfQ6iUQeaZn6v1jPFfBexFI3nT1AC94oktN6BAIlr4t7x5jteJq',
+            'password' => '$2y$10$Boweq9eXZLCkFRZQrwdgSuhiheVBe6wUZBFy8N7VpEdKWJJdaq16K', //12345678
             "role"=>"Admin",
             "phone"=> "9991732101",
         ]);
         User::create([
             'name' => 'Gener Echeverria',
             "email"=>"gener.echeverria@gmail.com",
-            'password' => '$2y$10$06bfQ6iUQeaZn6v1jPFfBexFI3nT1AC94oktN6BAIlr4t7x5jteJq',
+            'password' => '$2y$10$Boweq9eXZLCkFRZQrwdgSuhiheVBe6wUZBFy8N7VpEdKWJJdaq16K', //12345678
             "role"=>"Client",
             "phone"=> "9991732101",
         ]);
