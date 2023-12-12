@@ -3,43 +3,47 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Store\SiteStore;
 use Core\UseCases\Sites;
+use Illuminate\Http\Request;
 
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 use App\Http\Requests\StoreSiteRequest;
+use App\Services\AuthUserService;
+use App\Store\SiteStore;
 
 class SiteController extends Controller
 {
-    public function __construct()
+    private Sites $sites;
+   
+    public function __construct(SiteStore $siteStore, AuthUserService $authUserService)
     {
-        $this->middleware('auth:api', ['except' => ['show', 'getIdSite', 'updateState']]);
+        $this->middleware('auth:api', ['except' => ['getSite', 'getState', 'updateState']]);
+        $this->sites = new Sites($siteStore, $authUserService);
     }
 
-    public function index(SiteStore $siteStore)
+    public function index()
     {
-        return $siteStore->getAll();
+        return $this->sites->getAll();
     }
 
-    public function updateState(Request $request, SiteStore $siteStore)
+    public function updateState(Request $request)
     {
-        if ($siteStore->isSiteStored($request)) {
-            $siteStore->updateState($request);
+        try {
+            $this->sites->updateState($request->input('id'), $request->input('state'));
             return response()->json([
                 'message' => 'state update',
             ], 200);
-        } else {
+        } catch (\Exception $e) {
             return response()->json([
                 'error' => 'state not update',
             ], 404);
         }
     }
 
-    public function store(StoreSiteRequest $request, SiteStore $siteStore)    {
+    public function store(StoreSiteRequest $request)    {
         try {
-            $user = JWTAuth::parseToken()->authenticate();
-            $siteStore->createSite($request, $user);
+            $this->sites->save($request->all());
             return response()->json([
                 'message' => 'Successfully created',
             ], 201);
@@ -53,25 +57,23 @@ class SiteController extends Controller
     
     public function getSitesForCurrentUser()
     {
-        $user = JWTAuth::parseToken()->authenticate();
-        $sites = $user->sites;
+        $sites = $this->sites->getSitesForCurrentUser();
         return response()->json([
             'sites' => $sites
         ], 200);
     }
     
-    public function getSites($userId, SiteStore $siteStore)
+    public function getSites($userId)
     {
-        $sites = $siteStore->getSites($userId);
+        $sites = $this->sites->getSitesByUser($userId);
         return response()->json([
             'sites' => $sites
         ], 200);
     }
 
-    public function getIdSite($url, SiteStore $siteStore)
+    public function getState($url)
     {
-        $site = $siteStore->findByUrl($url);
-
+        $site = $this->sites->getState($url);
         if ($site) {
             return response()->json([
                 'id' => $site->id,
@@ -82,12 +84,11 @@ class SiteController extends Controller
         }
     }
     
-    public function show(string $id, SiteStore $siteStore, Sites $sites)
+    public function getSite(string $id)
     {
-        $site = $siteStore->findById($id);
-        $buildedSite = $sites->buildSite($site);
+        $site = $this->sites->getSite($id);
         return response()->json([
-            'newCrearSitio' => $buildedSite //Cambiar nombre en el front al modificar este
+            'site' => $site 
         ], 200);
     }
 }

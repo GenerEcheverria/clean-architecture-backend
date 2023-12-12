@@ -3,27 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Store\RealUserStore;
+use App\Store\UserStore;
 use Core\UseCases\Users;
 
 class UserController extends Controller
 {
-    public function __construct()
+    private Users $users;
+    public function __construct(UserStore $userStore)
     {
         $this->middleware('auth:api', ['except' => ['register']]);
+        $this->users = new Users($userStore);
     }
 
-    public function index(RealUserStore $realUserStore)
+    public function index()
     {
-        $users = new Users($realUserStore);
-        return $users->getAll();
+        return $this->users->getAll();
     }
 
-    public function register(Request $request, RealUserStore $realUserStore)
+    public function register(Request $request)
     {
         try {
-            $users = new Users($realUserStore);
-            $registeredUser = $users->register($request->all());
+            $registeredUser = $this->users->register($request->all());
             return response()->json([
                 'message' => 'Successfully created',
                 'user' => $registeredUser
@@ -35,17 +35,15 @@ class UserController extends Controller
             ], 409);
         }
     }
-    public function show(string $id, RealUserStore $realUserStore)
+    public function show(string $id)
     {
-        $users = new Users($realUserStore);
-        return $users->getById($id);
+        return $this->users->getById($id);
     }
 
-    public function update(Request $request, string $id, RealUserStore $realUserStore)
+    public function update(Request $request, string $id)
     {
         try {
-            $users = new Users($realUserStore);
-            $users->update($request->all(), $id);
+            $this->users->update($request->all(), $id);
             return response()->json([
                 "message" => "User updated successfully",
             ], 200);
@@ -56,10 +54,9 @@ class UserController extends Controller
         }
     }
 
-    public function destroy(string $id,RealUserStore $realUserStore)
+    public function destroy(string $id)
     {
-        $users = new Users($realUserStore);
-        if ($users->delete($id)) {
+        if ($this->users->delete($id)) {
             return response()->json([
                 "message" => "User deleted successfully",
             ], 202);
@@ -68,6 +65,11 @@ class UserController extends Controller
                 "error" => "User not found",
             ], 404);
         }
+    }
+
+    public function getUserData()
+    {
+        return $this->users->getUserData();
     }
 
 

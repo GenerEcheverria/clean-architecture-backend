@@ -1,12 +1,50 @@
 <?php
 namespace Core\UseCases;
 
+use Core\Interfaces\IAuthUser;
+use Core\Interfaces\ISiteStore;
+
 class Sites {
-    public function buildSite($site) {
+    private $siteStore;
+    private $authUser;
+
+    public function __construct(ISiteStore $siteStore, IAuthUser $auth) {
+        $this->siteStore = $siteStore;
+        $this->authUser = $auth;
+    }
+
+    public function getAll(){
+        return $this->siteStore->getAll();
+    }
+
+    public function updateState($id, $state){
+        if($this->siteStore->isSiteStored($id)){
+            $this->siteStore->updateState($id, $state);
+        }
+    }
+    
+    public function save (Array $site){
+        $user = $this->authUser->authenticate();
+        $this->siteStore->save($site, $user);
+    }
+
+    public function getSitesForCurrentUser() {
+        $user = $this->authUser->authenticate();
+        return $this->siteStore->getSitesForCurrentUser($user);
+    }
+
+    public function getSitesByUser($userId) {
+        return $this->siteStore->getSitesByUser($userId);
+    }
+
+    public function getState($url) {
+        return $this->siteStore->getState($url);
+    }
+    public function getSite($id) {
+        $site = $this->siteStore->getSite($id);
         $name = $site['name'];
         $arreglo = array();
         $arreglo[] = $name;
-
         $siteBuilded = (object) [
             'name' => $site['name'],
             'backgroundColor' => $site['backgroundColor'],

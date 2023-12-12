@@ -3,7 +3,7 @@ namespace Core\Interfaces;
 
 use Core\Entities\UserDTO;
 
-interface UserStore
+interface IUserStore
 {
     public function save(UserDTO $client): void;
     public function getAll();
@@ -11,4 +11,6 @@ interface UserStore
     public function isUserStored(int $id): bool;
     public function update(UserDTO $client, $id);
     public function delete(int $id):bool;
+
+    public function getUserData();
 }

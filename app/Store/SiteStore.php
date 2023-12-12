@@ -2,7 +2,6 @@
 
 namespace App\Store;
 
-use Illuminate\Http\Request;
 use App\Models\Site;
 use Illuminate\Support\Facades\DB;
 use App\Models\Body;
@@ -12,55 +11,57 @@ use App\Models\Video;
 use App\Models\Header;
 use App\Models\Footer;
 use App\Models\User;
+use Core\Interfaces\ISiteStore;
 
-class SiteStore
+class SiteStore implements ISiteStore
 {
     public function getAll()
     {
         return Site::all();
     }
 
-    public function isSiteStored(Request $request): bool
+    public function isSiteStored(int $id): bool
     {
-        return Site::where("id", $request->input('id'))->exists();
+        return Site::where("id", $id)->exists();
     }
 
-    public function updateState(Request $request)
+    public function updateState(int $id, string $state)
     {
-        $site = Site::find($request->input('id'));
-        $site->state =  $request->input('state');
+        $site = Site::find($id);
+        $site->state =  $state;
         $site->save();
     }
 
-    public function createSite(Request $request, $user)
+    public function save($siteInput, $user)
     {
         try {
             $siteData = [
                 'idUser' => $user->id,
-                'name' => $request->input('newCrearSitio.name'),
-                'backgroundColor' => $request->input('newCrearSitio.backgroundColor'),
-                'views' => $request->input('newCrearSitio.views'),
-                'url' => $request->input('newCrearSitio.url'),
+                'name' => $siteInput['newCrearSitio']['name'],
+                'backgroundColor' => $siteInput['newCrearSitio']['backgroundColor'],
+                'views' => $siteInput['newCrearSitio']['views'],
+                'url' => $siteInput['newCrearSitio']['url'],
                 'state' => 'publicada'
             ];
             DB::beginTransaction();
             $site = Site::create($siteData);
             $headerData = [
                 'idSite' => $site->id,
-                'title' => $request->input('newCrearSitio.header.title'),
-                'size' => $request->input('newCrearSitio.header.size'),
-                'position' => $request->input('newCrearSitio.header.position'),
-                'color' => $request->input('newCrearSitio.header.color'),
-                'image' => $request->input('newCrearSitio.header.image'),
-                'hero' => $request->input('newCrearSitio.header.hero'),
+                'title' => $siteInput['newCrearSitio']['header']['title'],
+                'size' => $siteInput['newCrearSitio']['header']['size'],
+                'position' => $siteInput['newCrearSitio']['header']['position'],
+                'color' => $siteInput['newCrearSitio']['header']['color'],
+                'image' => $siteInput['newCrearSitio']['header']['image'],
+                'hero' => $siteInput['newCrearSitio']['header']['hero'],
             ];
-            $bodyDataContent = $request->input('newCrearSitio.body');
+            $bodyDataContent = $siteInput['newCrearSitio']['body'];
             foreach ($bodyDataContent as $index => $item) {
                 $bodyData = [
                     'idSite' => $site->id,
                     'indexPage' => $index,
                 ];
                 $body = Body::create($bodyData);
+                echo $body;
                 if (isset($item['full'])) {
                     if (isset($item['full']['text'])) {
                         $textData = [
@@ -185,42 +186,49 @@ class SiteStore
             $header = Header::create($headerData);
             $footerData = [
                 'idSite' => $site->id,
-                'backgroundColor' => $request->input('newCrearSitio.footer.backgroundColor'),
-                'textColor' => $request->input('newCrearSitio.footer.textColor'),
-                'setSocialMedia' => $request->input('newCrearSitio.footer.socialMedia.setSocialMedia'),
-                'facebook' => $request->input('newCrearSitio.footer.socialMedia.facebook'),
-                'twitter' => $request->input('newCrearSitio.footer.socialMedia.twitter'),
-                'instagram' => $request->input('newCrearSitio.footer.socialMedia.instagram'),
-                'tiktok' => $request->input('newCrearSitio.footer.socialMedia.tiktok'),
-                'linkedin' => $request->input('newCrearSitio.footer.socialMedia.linkedin'),
-                'otro' => $request->input('newCrearSitio.footer.socialMedia.otro'),
-                'setContact' => $request->input('newCrearSitio.footer.contact.setContact'),
-                'address' => $request->input('newCrearSitio.footer.contact.address'),
-                'phone' => $request->input('newCrearSitio.footer.contact.phone'),
-                'setExtra' => $request->input('newCrearSitio.footer.extra.setExtra'),
-                'text' => $request->input('newCrearSitio.footer.extra.text'),
-                'image' => $request->input('newCrearSitio.footer.extra.image'),
+                'backgroundColor' => $siteInput['newCrearSitio']['footer']['backgroundColor'],
+                'textColor' => $siteInput['newCrearSitio']['footer']['textColor'],
+                'setSocialMedia' => $siteInput['newCrearSitio']['footer']['socialMedia']['setSocialMedia'],
+                'facebook' => $siteInput['newCrearSitio']['footer']['socialMedia']['facebook'],
+                'twitter' => $siteInput['newCrearSitio']['footer']['socialMedia']['twitter'],
+                'instagram' => $siteInput['newCrearSitio']['footer']['socialMedia']['instagram'],
+                'tiktok' => $siteInput['newCrearSitio']['footer']['socialMedia']['tiktok'],
+                'linkedin' => $siteInput['newCrearSitio']['footer']['socialMedia']['linkedin'],
+                'otro' => $siteInput['newCrearSitio']['footer']['socialMedia']['otro'],
+                'setContact' => $siteInput['newCrearSitio']['footer']['contact']['setContact'],
+                'address' => $siteInput['newCrearSitio']['footer']['contact']['address'],
+                'phone' => $siteInput['newCrearSitio']['footer']['contact']['phone'],
+                'setExtra' => $siteInput['newCrearSitio']['footer']['extra']['setExtra'],
+                'text' => $siteInput['newCrearSitio']['footer']['extra']['text'],
+                'image' => $siteInput['newCrearSitio']['footer']['extra']['image'],
             ];
             $footer = Footer::create($footerData);
+            echo $footer;
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
+            throw new \Exception("Error during site creation: " . $e->getMessage(), 500);
         }
     }
 
-    public function getSites($userId)
+    public function getSitesForCurrentUser($user)
+    {
+        $sites = $user->sites;
+        return $sites;
+    }
+    public function getSitesByUser($userId)
     {
         $user = User::findOrFail($userId);
         $sites = $user->sites;
         return $sites;
     }
 
-    public function findByUrl($url)
+    public function getState($url)
     {
         return Site::where('url', $url)->first();
     }
 
-    public function findById($id)
+    public function getSite($id)
     {
         $site = Site::findOrFail($id);
         $site->views = $site->views + 1;
