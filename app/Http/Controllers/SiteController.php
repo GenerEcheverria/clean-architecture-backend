@@ -22,16 +22,16 @@ class SiteController extends Controller
         return $siteStore->getAll();
     }
 
-    public function updateState(StoreSiteRequest $request, SiteStore $siteStore)
+    public function updateState(Request $request, SiteStore $siteStore)
     {
         if ($siteStore->isSiteStored($request)) {
             $siteStore->updateState($request);
             return response()->json([
-                "message" => "state update",
+                'message' => 'state update',
             ], 200);
         } else {
             return response()->json([
-                "error" => "state not update",
+                'error' => 'state not update',
             ], 404);
         }
     }
