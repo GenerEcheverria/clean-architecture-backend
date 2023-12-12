@@ -15,10 +15,10 @@ Route::group([
     Route::post('logout', 'App\Http\Controllers\AuthController@logout');
 
     // Endpoint para refrescar el token de autenticación
-    Route::post('refresh', 'App\Http\Controllers\AuthController@refresh');
+    Route::post('refreshToken', 'App\Http\Controllers\AuthController@refreshToken');
 
     // Endpoint para obtener los datos del usuario autenticado
-    Route::post('me', 'App\Http\Controllers\AuthController@me');
+    Route::post('getUserData', 'App\Http\Controllers\AuthController@getUserData');
 
     // Endpoint para verificar el token de autenticación
     Route::get('check', 'App\Http\Controllers\AuthController@checkToken');

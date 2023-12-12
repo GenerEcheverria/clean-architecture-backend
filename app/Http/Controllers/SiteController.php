@@ -30,11 +30,11 @@ class SiteController extends Controller
             $sites = new Sites($siteStore);
             $sites->updateState($request->input('id'), $request->input('state'));
             return response()->json([
-                "message" => "state update",
+                'message' => 'state update',
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                "error" => "state not update",
+                'error' => 'state not update',
             ], 404);
         }
     }

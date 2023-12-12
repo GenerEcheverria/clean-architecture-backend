@@ -6,95 +6,47 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\Store\AuthStore;
 use App\Models\User;
+use Core\UseCases\Auths;
 
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
-     /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login', 'checkToken']]);
     }
 
-    /**
-     * Attempt to log in the user and generate a JWT token.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function login()
+    public function login(Request $request, AuthStore $authStore)
     {
-        $credentials = request(['email', 'password']);
-        if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        $auths = new Auths($authStore);
+        $session = $auths->login($request->only(['email', 'password']));
+
+        if ($session == null) {
+            return response()->json(['Error' => 'Unauthorized'], 401);
         }
-        return $this->respondWithToken($token);
+
+        return $session;
     }
 
-    /**
-     * Get the authenticated user.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function me()
+    public function getUserData(AuthStore $authStore) //este nombre va a afectar al endpoint de api.php
     {
-        return response()->json(auth()->user());
+        return $authStore->getUserData();
     }
 
-    /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function logout()
+    public function logout(AuthStore $authStore)
     {
-        auth()->logout();
-
-        return response()->json(['message' => 'Successfully logged out']);
+        $authStore->destroySesion();
+        return response()->json(['response' => 'Successfully logged out'], 200);
     }
 
-    /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function refresh()
+    public function refreshToken(AuthStore $authStore) //este nombre va a afectar al endpoint de api.php
     {
-        return $this->respondWithToken(auth()->refresh());
+        return $authStore->refreshToken();
     }
 
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithToken($token)
-    {
-        $user = auth()->user();
-        $role = $user->role; 
-
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
-            'role' => $role 
-        ]);
-    }
-
-    /**
-     * Check the validity of a token.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function checkToken(Request $request)
     {
         try {
