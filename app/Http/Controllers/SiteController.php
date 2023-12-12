@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Store\SiteStore;
 use Core\UseCases\Sites;
+use Illuminate\Http\Request;
 
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -22,7 +23,7 @@ class SiteController extends Controller
         return $siteStore->getAll();
     }
 
-    public function updateState(StoreSiteRequest $request, SiteStore $siteStore)
+    public function updateState(Request $request, SiteStore $siteStore)
     {
         if ($siteStore->isSiteStored($request)) {
             $siteStore->updateState($request);
