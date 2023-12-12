@@ -7,4 +7,5 @@ interface ISiteStore
     public function isSiteStored(int $id): bool;
     public function updateState(int $id, string $state);
     public function save($site, $user);
+    public function getSitesForCurrentUser($user);
 }

@@ -211,6 +211,11 @@ class SiteStore implements ISiteStore
         }
     }
 
+    public function getSitesForCurrentUser($user)
+    {
+        $sites = $user->sites;
+        return $sites;
+    }
     public function getSites($userId)
     {
         $user = User::findOrFail($userId);

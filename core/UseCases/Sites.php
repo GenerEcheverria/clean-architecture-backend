@@ -28,8 +28,9 @@ class Sites {
         $this->siteStore->save($site, $user);
     }
 
-    public function getCurrentUserSites() {
-        
+    public function getSitesForCurrentUser() {
+        $user = $this->authUser->authenticate();
+        return $this->siteStore->getSitesForCurrentUser($user);
     }
 
     public function buildSite($site) {
