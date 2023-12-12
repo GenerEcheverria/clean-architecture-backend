@@ -43,8 +43,7 @@ class SiteController extends Controller
 
     public function store(StoreSiteRequest $request)    {
         try {
-            $user = JWTAuth::parseToken()->authenticate();
-            $this->sites->save($request, $user);
+            $this->sites->save($request->all());
             return response()->json([
                 'message' => 'Successfully created',
             ], 201);

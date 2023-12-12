@@ -22,10 +22,14 @@ class Sites {
             $this->siteStore->updateState($id, $state);
         }
     }
-
-    public function save ($site){
+    
+    public function save (Array $site){
         $user = $this->authUser->authenticate();
         $this->siteStore->save($site, $user);
+    }
+
+    public function getCurrentUserSites() {
+        
     }
 
     public function buildSite($site) {

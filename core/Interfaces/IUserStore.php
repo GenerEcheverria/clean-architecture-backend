@@ -11,4 +11,6 @@ interface IUserStore
     public function isUserStored(int $id): bool;
     public function update(UserDTO $client, $id);
     public function delete(int $id):bool;
+
+    public function getUserData();
 }

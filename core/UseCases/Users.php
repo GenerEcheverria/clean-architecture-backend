@@ -63,4 +63,9 @@ class Users
     public function delete($id): bool{
         return $this->userStore->delete($id);
     }
+
+    public function getUserData()
+    {
+        return $this->userStore->getUserData();
+    }
 }

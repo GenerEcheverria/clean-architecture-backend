@@ -67,6 +67,11 @@ class UserController extends Controller
         }
     }
 
+    public function getUserData()
+    {
+        return $this->users->getUserData();
+    }
+
 
    //PARECE QUE NO SE USAN
 

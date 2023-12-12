@@ -52,4 +52,8 @@ class UserStore implements IUserStore
         }
         return false;
     }
+    
+    public function getUserData(){
+        return response()->json(auth()->user());
+    }
 }
