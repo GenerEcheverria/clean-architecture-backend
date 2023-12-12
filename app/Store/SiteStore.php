@@ -223,12 +223,12 @@ class SiteStore implements ISiteStore
         return $sites;
     }
 
-    public function findByUrl($url)
+    public function getState($url)
     {
         return Site::where('url', $url)->first();
     }
 
-    public function findById($id)
+    public function getSite($id)
     {
         $site = Site::findOrFail($id);
         $site->views = $site->views + 1;

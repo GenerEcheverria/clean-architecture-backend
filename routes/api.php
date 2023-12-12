@@ -37,8 +37,8 @@ Route::group([
     Route::get('mySites', 'App\Http\Controllers\SiteController@getSitesForCurrentUser');
     Route::post('updateState', 'App\Http\Controllers\SiteController@updateState');
     Route::get('userSites/{id}', 'App\Http\Controllers\SiteController@getSites');
-    Route::get('site/{id}', 'App\Http\Controllers\SiteController@show');
-    Route::get('id/{url}', 'App\Http\Controllers\SiteController@getIdSite');
+    Route::get('site/{id}', 'App\Http\Controllers\SiteController@getSite');
+    Route::get('id/{url}', 'App\Http\Controllers\SiteController@getState');
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -18,7 +18,7 @@ class SiteController extends Controller
    
     public function __construct(SiteStore $siteStore, AuthUserService $authUserService)
     {
-        $this->middleware('auth:api', ['except' => ['show', 'getIdSite', 'updateState']]);
+        $this->middleware('auth:api', ['except' => ['getSite', 'getState', 'updateState']]);
         $this->sites = new Sites($siteStore, $authUserService);
     }
 
@@ -71,10 +71,9 @@ class SiteController extends Controller
         ], 200);
     }
 
-    public function getIdSite($url, SiteStore $siteStore)
+    public function getState($url)
     {
-        $site = $siteStore->findByUrl($url);
-
+        $site = $this->sites->getState($url);
         if ($site) {
             return response()->json([
                 'id' => $site->id,
@@ -85,12 +84,11 @@ class SiteController extends Controller
         }
     }
     
-    public function show(string $id, SiteStore $siteStore, Sites $sites)
+    public function getSite(string $id)
     {
-        $site = $siteStore->findById($id);
-        $buildedSite = $sites->buildSite($site);
+        $site = $this->sites->getSite($id);
         return response()->json([
-            'newCrearSitio' => $buildedSite //Cambiar nombre en el front al modificar este
+            'site' => $site 
         ], 200);
     }
 }

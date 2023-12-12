@@ -9,4 +9,6 @@ interface ISiteStore
     public function save($site, $user);
     public function getSitesForCurrentUser($user);
     public function getSitesByUser($userId);
+    public function getState(string $url);
+    public function getSite(int $id);
 }

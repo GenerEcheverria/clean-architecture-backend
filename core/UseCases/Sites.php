@@ -37,11 +37,14 @@ class Sites {
         return $this->siteStore->getSitesByUser($userId);
     }
 
-    public function buildSite($site) {
+    public function getState($url) {
+        return $this->siteStore->getState($url);
+    }
+    public function getSite($id) {
+        $site = $this->siteStore->getSite($id);
         $name = $site['name'];
         $arreglo = array();
         $arreglo[] = $name;
-
         $siteBuilded = (object) [
             'name' => $site['name'],
             'backgroundColor' => $site['backgroundColor'],
