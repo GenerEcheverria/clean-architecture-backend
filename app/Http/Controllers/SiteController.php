@@ -14,26 +14,23 @@ use App\Store\SiteStore;
 
 class SiteController extends Controller
 {
-    private $siteStore;
-    private $authUserService;
+    private Sites $sites;
+   
     public function __construct(SiteStore $siteStore, AuthUserService $authUserService)
     {
         $this->middleware('auth:api', ['except' => ['show', 'getIdSite', 'updateState']]);
-        $this->siteStore = $siteStore;
-        $this->authUserService = $authUserService;
+        $this->sites = new Sites($siteStore, $authUserService);
     }
 
     public function index()
     {
-        $sites = new Sites($this->siteStore, $this->authUserService);
-        return $sites->getAll();
+        return $this->sites->getAll();
     }
 
     public function updateState(Request $request)
     {
         try {
-            $sites = new Sites($this->siteStore, $this->authUserService);
-            $sites->updateState($request->input('id'), $request->input('state'));
+            $this->sites->updateState($request->input('id'), $request->input('state'));
             return response()->json([
                 'message' => 'state update',
             ], 200);
@@ -44,11 +41,10 @@ class SiteController extends Controller
         }
     }
 
-    public function store(StoreSiteRequest $request, SiteStore $siteStore, AuthUserService $AuthUserService)    {
+    public function store(StoreSiteRequest $request)    {
         try {
-            $sites = new Sites($siteStore, $AuthUserService);
             $user = JWTAuth::parseToken()->authenticate();
-            $sites->save($request, $user);
+            $this->sites->save($request, $user);
             return response()->json([
                 'message' => 'Successfully created',
             ], 201);

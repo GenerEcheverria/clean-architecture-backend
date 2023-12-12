@@ -8,22 +8,22 @@ use Core\UseCases\Users;
 
 class UserController extends Controller
 {
-    public function __construct()
+    private Users $users;
+    public function __construct(UserStore $userStore)
     {
         $this->middleware('auth:api', ['except' => ['register']]);
+        $this->users = new Users($userStore);
     }
 
-    public function index(UserStore $UserStore)
+    public function index()
     {
-        $users = new Users($UserStore);
-        return $users->getAll();
+        return $this->users->getAll();
     }
 
-    public function register(Request $request, UserStore $UserStore)
+    public function register(Request $request)
     {
         try {
-            $users = new Users($UserStore);
-            $registeredUser = $users->register($request->all());
+            $registeredUser = $this->users->register($request->all());
             return response()->json([
                 'message' => 'Successfully created',
                 'user' => $registeredUser
@@ -35,17 +35,15 @@ class UserController extends Controller
             ], 409);
         }
     }
-    public function show(string $id, UserStore $UserStore)
+    public function show(string $id)
     {
-        $users = new Users($UserStore);
-        return $users->getById($id);
+        return $this->users->getById($id);
     }
 
-    public function update(Request $request, string $id, UserStore $UserStore)
+    public function update(Request $request, string $id)
     {
         try {
-            $users = new Users($UserStore);
-            $users->update($request->all(), $id);
+            $this->users->update($request->all(), $id);
             return response()->json([
                 "message" => "User updated successfully",
             ], 200);
@@ -56,10 +54,9 @@ class UserController extends Controller
         }
     }
 
-    public function destroy(string $id,UserStore $UserStore)
+    public function destroy(string $id)
     {
-        $users = new Users($UserStore);
-        if ($users->delete($id)) {
+        if ($this->users->delete($id)) {
             return response()->json([
                 "message" => "User deleted successfully",
             ], 202);
