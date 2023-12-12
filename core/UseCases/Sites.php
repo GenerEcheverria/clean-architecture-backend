@@ -33,7 +33,7 @@ class Sites {
         return $this->siteStore->getSitesForCurrentUser($user);
     }
 
-    public function getSitesByUserId($userId) {
+    public function getSitesByUser($userId) {
         return $this->siteStore->getSitesByUser($userId);
     }
 

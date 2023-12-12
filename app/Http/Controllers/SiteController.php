@@ -63,9 +63,9 @@ class SiteController extends Controller
         ], 200);
     }
     
-    public function getSites($userId, SiteStore $siteStore)
+    public function getSites($userId)
     {
-        $sites = $siteStore->getSitesByUser($userId);
+        $sites = $this->sites->getSitesByUser($userId);
         return response()->json([
             'sites' => $sites
         ], 200);
