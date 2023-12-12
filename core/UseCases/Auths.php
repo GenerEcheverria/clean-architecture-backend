@@ -9,16 +9,17 @@ use Illuminate\Support\Facades\Validator;
 
 class Auths
 {
-    private $authStore;
+    private $iAuthStore;
 
-    public function __construct(AuthStore $authStore)
+    public function __construct(IAuthStore $iAuthStore)
     {
-        $this->authStore = $authStore;
+        
+        $this->iAuthStore = $iAuthStore;
     }
    
     public function login(array $credentials)
     {
-        $this->$authStore->login($credentials);
+        return $this->iAuthStore->login($credentials);
     }
 
     
