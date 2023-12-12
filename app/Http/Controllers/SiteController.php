@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Store\SiteStore;
 use Core\UseCases\Sites;
 use Illuminate\Http\Request;
 
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 use App\Http\Requests\StoreSiteRequest;
+use App\Store\RealSiteStore;
 
 class SiteController extends Controller
 {
@@ -18,26 +18,28 @@ class SiteController extends Controller
         $this->middleware('auth:api', ['except' => ['show', 'getIdSite', 'updateState']]);
     }
 
-    public function index(SiteStore $siteStore)
+    public function index(RealSiteStore $siteStore)
     {
-        return $siteStore->getAll();
+        $sites = new Sites($siteStore);
+        return $sites->getAll();
     }
 
-    public function updateState(Request $request, SiteStore $siteStore)
+    public function updateState(Request $request, RealSiteStore $siteStore)
     {
-        if ($siteStore->isSiteStored($request)) {
-            $siteStore->updateState($request);
+        try {
+            $sites = new Sites($siteStore);
+            $sites->updateState($request->input('id'), $request->input('state'));
             return response()->json([
                 "message" => "state update",
             ], 200);
-        } else {
+        } catch (\Exception $e) {
             return response()->json([
                 "error" => "state not update",
             ], 404);
         }
     }
 
-    public function store(StoreSiteRequest $request, SiteStore $siteStore)    {
+    public function store(StoreSiteRequest $request, RealSiteStore $siteStore)    {
         try {
             $user = JWTAuth::parseToken()->authenticate();
             $siteStore->createSite($request, $user);
@@ -61,7 +63,7 @@ class SiteController extends Controller
         ], 200);
     }
     
-    public function getSites($userId, SiteStore $siteStore)
+    public function getSites($userId, RealSiteStore $siteStore)
     {
         $sites = $siteStore->getSites($userId);
         return response()->json([
@@ -69,7 +71,7 @@ class SiteController extends Controller
         ], 200);
     }
 
-    public function getIdSite($url, SiteStore $siteStore)
+    public function getIdSite($url, RealSiteStore $siteStore)
     {
         $site = $siteStore->findByUrl($url);
 
@@ -83,7 +85,7 @@ class SiteController extends Controller
         }
     }
     
-    public function show(string $id, SiteStore $siteStore, Sites $sites)
+    public function show(string $id, RealSiteStore $siteStore, Sites $sites)
     {
         $site = $siteStore->findById($id);
         $buildedSite = $sites->buildSite($site);

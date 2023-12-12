@@ -12,23 +12,24 @@ use App\Models\Video;
 use App\Models\Header;
 use App\Models\Footer;
 use App\Models\User;
+use Core\Interfaces\SiteStore;
 
-class SiteStore
+class RealSiteStore implements SiteStore
 {
     public function getAll()
     {
         return Site::all();
     }
 
-    public function isSiteStored(Request $request): bool
+    public function isSiteStored(int $id): bool
     {
-        return Site::where("id", $request->input('id'))->exists();
+        return Site::where("id", $id)->exists();
     }
 
-    public function updateState(Request $request)
+    public function updateState(int $id, string $state)
     {
-        $site = Site::find($request->input('id'));
-        $site->state =  $request->input('state');
+        $site = Site::find($id);
+        $site->state =  $state;
         $site->save();
     }
 

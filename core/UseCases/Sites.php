@@ -1,7 +1,25 @@
 <?php
 namespace Core\UseCases;
 
+use Core\Interfaces\SiteStore;
+
 class Sites {
+    private $siteStore;
+
+    public function __construct(SiteStore $siteStore) {
+        $this->siteStore = $siteStore;
+    }
+
+    public function getAll(){
+        return $this->siteStore->getAll();
+    }
+
+    public function updateState($id, $state){
+        if($this->siteStore->isSiteStored($id)){
+            $this->siteStore->updateState($id, $state);
+        }
+    }
+
     public function buildSite($site) {
         $name = $site['name'];
         $arreglo = array();

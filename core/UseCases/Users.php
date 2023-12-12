@@ -4,7 +4,6 @@ namespace Core\UseCases;
 
 use Core\Entities\UserDTO;
 use Core\Interfaces\UserStore;
-use Illuminate\Support\Facades\Validator;
 
 class Users
 {
@@ -22,17 +21,6 @@ class Users
 
     public function register(array $userData): UserDTO
     {
-        $validator = Validator::make($userData, [
-            'name' => 'required',
-            'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|min:6',
-            'role' => 'required|string',
-            'phone' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            throw new \InvalidArgumentException($validator->errors()->toJson());
-        }
         $encryptedPassword = bcrypt($userData['password']);
         $user = new UserDTO(
             $userData['name'],
