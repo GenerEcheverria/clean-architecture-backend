@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Store\AuthStore;
 use App\Models\User;
+use Core\UseCases\Auths;
 
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -20,8 +21,8 @@ class AuthController extends Controller
 
     public function login(Request $request, AuthStore $authStore)
     {
-        $credentials = $request->only(['email', 'password']);
-        $session = $authStore->createToken($credentials);
+        $auths = new Auths($authStore);
+        $session = $auths->login($request->only(['email', 'password']));
 
         if ($session == null) {
             return response()->json(['Error' => 'Unauthorized'], 401);

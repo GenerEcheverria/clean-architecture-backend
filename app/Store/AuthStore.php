@@ -1,10 +1,11 @@
 <?php
-
 namespace App\Store;
 
-class AuthStore
+use Core\Interfaces\IAuthStore;
+
+class AuthStore implements IAuthStore
 {
-    public function createToken($credentials)
+    public function login(array $credentials)
     {
         $token = auth()->attempt($credentials);
         return $this->sessionData($token);
