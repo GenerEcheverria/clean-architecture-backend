@@ -9,25 +9,30 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 use App\Http\Requests\StoreSiteRequest;
+use App\Services\AuthUserService;
 use App\Store\SiteStore;
 
 class SiteController extends Controller
 {
-    public function __construct()
+    private $siteStore;
+    private $authUserService;
+    public function __construct(SiteStore $siteStore, AuthUserService $authUserService)
     {
         $this->middleware('auth:api', ['except' => ['show', 'getIdSite', 'updateState']]);
+        $this->siteStore = $siteStore;
+        $this->authUserService = $authUserService;
     }
 
-    public function index(SiteStore $siteStore)
+    public function index()
     {
-        $sites = new Sites($siteStore);
+        $sites = new Sites($this->siteStore, $this->authUserService);
         return $sites->getAll();
     }
 
-    public function updateState(Request $request, SiteStore $siteStore)
+    public function updateState(Request $request)
     {
         try {
-            $sites = new Sites($siteStore);
+            $sites = new Sites($this->siteStore, $this->authUserService);
             $sites->updateState($request->input('id'), $request->input('state'));
             return response()->json([
                 'message' => 'state update',
@@ -39,9 +44,9 @@ class SiteController extends Controller
         }
     }
 
-    public function store(StoreSiteRequest $request, SiteStore $siteStore)    {
+    public function store(StoreSiteRequest $request, SiteStore $siteStore, AuthUserService $AuthUserService)    {
         try {
-            $sites = new Sites($siteStore);
+            $sites = new Sites($siteStore, $AuthUserService);
             $user = JWTAuth::parseToken()->authenticate();
             $sites->save($request, $user);
             return response()->json([

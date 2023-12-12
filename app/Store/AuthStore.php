@@ -36,4 +36,5 @@ class AuthStore implements IAuthStore
             'role' => $role 
         ]);
     }
+
 }

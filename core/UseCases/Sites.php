@@ -1,13 +1,16 @@
 <?php
 namespace Core\UseCases;
 
+use Core\Interfaces\IAuthUser;
 use Core\Interfaces\ISiteStore;
 
 class Sites {
     private $siteStore;
+    private $authUser;
 
-    public function __construct(ISiteStore $siteStore) {
+    public function __construct(ISiteStore $siteStore, IAuthUser $auth) {
         $this->siteStore = $siteStore;
+        $this->authUser = $auth;
     }
 
     public function getAll(){
@@ -20,7 +23,8 @@ class Sites {
         }
     }
 
-    public function save ($site, $user){
+    public function save ($site){
+        $user = $this->authUser->authenticate();
         $this->siteStore->save($site, $user);
     }
 
