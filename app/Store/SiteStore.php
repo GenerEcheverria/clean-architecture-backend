@@ -216,7 +216,7 @@ class SiteStore implements ISiteStore
         $sites = $user->sites;
         return $sites;
     }
-    public function getSites($userId)
+    public function getSitesByUser($userId)
     {
         $user = User::findOrFail($userId);
         $sites = $user->sites;

@@ -33,6 +33,10 @@ class Sites {
         return $this->siteStore->getSitesForCurrentUser($user);
     }
 
+    public function getSitesByUserId($userId) {
+        return $this->siteStore->getSitesByUser($userId);
+    }
+
     public function buildSite($site) {
         $name = $site['name'];
         $arreglo = array();

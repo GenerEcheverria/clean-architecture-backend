@@ -24,7 +24,7 @@ Route::group([
     
     Route::post('users/getUserData', 'App\Http\Controllers\UserController@getUserData');
 
-    Route::get('admins', 'App\Http\Controllers\AdminController@index');
+    Route::get('sausers', 'App\Http\Controllers\AdminController@index');
     
 });
 

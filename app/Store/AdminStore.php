@@ -9,7 +9,7 @@ class AdminStore implements IAdminStore
     public function getAll()
     {
         $admins = User::select('id', 'name')
-            ->where('role', 'Admin')
+            ->where('role', 'Client')
             ->get();
         return $admins;
     }

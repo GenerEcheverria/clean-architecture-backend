@@ -57,8 +57,7 @@ class SiteController extends Controller
     
     public function getSitesForCurrentUser()
     {
-        $user = JWTAuth::parseToken()->authenticate();
-        $sites = $user->sites;
+        $sites = $this->sites->getSitesForCurrentUser();
         return response()->json([
             'sites' => $sites
         ], 200);
@@ -66,7 +65,7 @@ class SiteController extends Controller
     
     public function getSites($userId, SiteStore $siteStore)
     {
-        $sites = $siteStore->getSites($userId);
+        $sites = $siteStore->getSitesByUser($userId);
         return response()->json([
             'sites' => $sites
         ], 200);
