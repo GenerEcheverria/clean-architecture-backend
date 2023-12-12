@@ -21,7 +21,7 @@ Route::group([
     Route::post('getUserData', 'App\Http\Controllers\AuthController@getUserData');
 
     // Endpoint para verificar el token de autenticación
-    Route::get('check', 'App\Http\Controllers\AuthController@checkToken');
+    Route::get('checkToken', 'App\Http\Controllers\AuthController@checkToken');
 });
 
 Route::group([

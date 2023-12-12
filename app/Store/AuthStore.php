@@ -2,6 +2,7 @@
 namespace App\Store;
 
 use Core\Interfaces\IAuthStore;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthStore implements IAuthStore
 {
@@ -11,17 +12,18 @@ class AuthStore implements IAuthStore
         return $this->sessionData($token);
     }
 
-    public function getUserData(){
-        return response()->json(auth()->user());
-    }
-
-    public function destroySesion(){
+    public function logout(){
         auth()->logout();
     }
 
     public function refreshToken(){
         $tokenRefreshed = auth()->refresh();
         return $this->sessionData($tokenRefreshed);
+    }
+
+    public function checkToken(){
+        $token = JWTAuth::parseToken()->getToken();
+        return JWTAuth::authenticate($token);
     }
 
     public function sessionData($token)

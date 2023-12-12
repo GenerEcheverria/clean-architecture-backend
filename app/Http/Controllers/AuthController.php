@@ -1,28 +1,25 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Store\AuthStore;
-use App\Models\User;
 use Core\UseCases\Auths;
-
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
-    public function __construct()
+    private Auths $auths;
+
+    public function __construct(AuthStore $authStore)
     {
         $this->middleware('auth:api', ['except' => ['login', 'checkToken']]);
+        $this->auths = new Auths($authStore);
     }
 
-    public function login(Request $request, AuthStore $authStore)
+    public function login(Request $request)
     {
-        $auths = new Auths($authStore);
-        $session = $auths->login($request->only(['email', 'password']));
+        $session = $this->auths->login($request->only(['email', 'password']));
 
         if ($session == null) {
             return response()->json(['Error' => 'Unauthorized'], 401);
@@ -31,27 +28,16 @@ class AuthController extends Controller
         return $session;
     }
 
-    public function getUserData(AuthStore $authStore) //este nombre va a afectar al endpoint de api.php
+    public function refreshToken()
     {
-        return $authStore->getUserData();
-    }
-
-    public function logout(AuthStore $authStore)
-    {
-        $authStore->destroySesion();
-        return response()->json(['response' => 'Successfully logged out'], 200);
-    }
-
-    public function refreshToken(AuthStore $authStore) //este nombre va a afectar al endpoint de api.php
-    {
-        return $authStore->refreshToken();
+        return $this->auths->refreshToken();
     }
 
     public function checkToken(Request $request)
     {
         try {
-            $token = JWTAuth::parseToken()->getToken();
-            $user = JWTAuth::authenticate($token);
+            $user = $this->auths->checkToken();
+            
             if (!$user) {
                 return response()->json(['valid' => false], 401);
             }
@@ -63,5 +49,11 @@ class AuthController extends Controller
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
             return response()->json(['valid' => false], 500);
         }
+    }
+
+    public function logout()
+    {
+        $this->auths->logout();
+        return response()->json(['response' => 'Successfully logged out'], 200);
     }
 }

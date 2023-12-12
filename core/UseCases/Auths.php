@@ -1,19 +1,14 @@
 <?php
-
 namespace Core\UseCases;
 
-//use Core\Entities\UserDTO;
 use Core\Interfaces\IAuthStore;
-
-use Illuminate\Support\Facades\Validator;
 
 class Auths
 {
-    private $iAuthStore;
+    private IAuthStore $iAuthStore;
 
     public function __construct(IAuthStore $iAuthStore)
-    {
-        
+    { 
         $this->iAuthStore = $iAuthStore;
     }
    
@@ -22,5 +17,18 @@ class Auths
         return $this->iAuthStore->login($credentials);
     }
 
-    
+    public function refreshToken()
+    {
+        return $this->iAuthStore->refreshToken();
+    }
+
+    public function checkToken()
+    {
+        return $this->iAuthStore->checkToken();
+    }
+
+    public function logout()
+    {
+        $this->iAuthStore->logout();
+    }
 }
