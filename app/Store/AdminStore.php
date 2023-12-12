@@ -2,9 +2,9 @@
 namespace App\Store;
 
 use App\Models\User;
-use Core\Interfaces\AdminStore;
+use Core\Interfaces\IAdminStore;
 
-class RealAdminStore implements AdminStore
+class AdminStore implements IAdminStore
 {
     public function getAll()
     {

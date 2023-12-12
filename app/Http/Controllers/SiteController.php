@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 use App\Http\Requests\StoreSiteRequest;
-use App\Store\RealSiteStore;
+use App\Store\SiteStore;
 
 class SiteController extends Controller
 {
@@ -18,13 +18,13 @@ class SiteController extends Controller
         $this->middleware('auth:api', ['except' => ['show', 'getIdSite', 'updateState']]);
     }
 
-    public function index(RealSiteStore $siteStore)
+    public function index(SiteStore $siteStore)
     {
         $sites = new Sites($siteStore);
         return $sites->getAll();
     }
 
-    public function updateState(Request $request, RealSiteStore $siteStore)
+    public function updateState(Request $request, SiteStore $siteStore)
     {
         try {
             $sites = new Sites($siteStore);
@@ -39,10 +39,11 @@ class SiteController extends Controller
         }
     }
 
-    public function store(StoreSiteRequest $request, RealSiteStore $siteStore)    {
+    public function store(StoreSiteRequest $request, SiteStore $siteStore)    {
         try {
+            $sites = new Sites($siteStore);
             $user = JWTAuth::parseToken()->authenticate();
-            $siteStore->createSite($request, $user);
+            $sites->save($request, $user);
             return response()->json([
                 'message' => 'Successfully created',
             ], 201);
@@ -63,7 +64,7 @@ class SiteController extends Controller
         ], 200);
     }
     
-    public function getSites($userId, RealSiteStore $siteStore)
+    public function getSites($userId, SiteStore $siteStore)
     {
         $sites = $siteStore->getSites($userId);
         return response()->json([
@@ -71,7 +72,7 @@ class SiteController extends Controller
         ], 200);
     }
 
-    public function getIdSite($url, RealSiteStore $siteStore)
+    public function getIdSite($url, SiteStore $siteStore)
     {
         $site = $siteStore->findByUrl($url);
 
@@ -85,7 +86,7 @@ class SiteController extends Controller
         }
     }
     
-    public function show(string $id, RealSiteStore $siteStore, Sites $sites)
+    public function show(string $id, SiteStore $siteStore, Sites $sites)
     {
         $site = $siteStore->findById($id);
         $buildedSite = $sites->buildSite($site);

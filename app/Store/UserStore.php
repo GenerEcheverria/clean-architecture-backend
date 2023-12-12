@@ -3,9 +3,9 @@ namespace App\Store;
 
 use Core\Entities\UserDTO;
 use App\Models\User;
-use Core\Interfaces\UserStore;
+use Core\Interfaces\IUserStore;
 
-class RealUserStore implements UserStore
+class UserStore implements IUserStore
 {
     public function getAll()
     {

@@ -1,12 +1,12 @@
 <?php
 namespace Core\UseCases;
 
-use Core\Interfaces\SiteStore;
+use Core\Interfaces\ISiteStore;
 
 class Sites {
     private $siteStore;
 
-    public function __construct(SiteStore $siteStore) {
+    public function __construct(ISiteStore $siteStore) {
         $this->siteStore = $siteStore;
     }
 
@@ -18,6 +18,10 @@ class Sites {
         if($this->siteStore->isSiteStored($id)){
             $this->siteStore->updateState($id, $state);
         }
+    }
+
+    public function save ($site, $user){
+        $this->siteStore->save($site, $user);
     }
 
     public function buildSite($site) {

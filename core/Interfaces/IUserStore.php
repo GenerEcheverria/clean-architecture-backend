@@ -3,7 +3,7 @@ namespace Core\Interfaces;
 
 use Core\Entities\UserDTO;
 
-interface UserStore
+interface IUserStore
 {
     public function save(UserDTO $client): void;
     public function getAll();

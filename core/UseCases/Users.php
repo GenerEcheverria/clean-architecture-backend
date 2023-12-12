@@ -3,13 +3,13 @@
 namespace Core\UseCases;
 
 use Core\Entities\UserDTO;
-use Core\Interfaces\UserStore;
+use Core\Interfaces\IUserStore;
 
 class Users
 {
     private $userStore;
 
-    public function __construct(UserStore $userStore)
+    public function __construct(IUserStore $userStore)
     {
         $this->userStore = $userStore;
     }

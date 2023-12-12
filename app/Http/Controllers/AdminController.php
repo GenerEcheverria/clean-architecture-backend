@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Store\RealAdminStore;
+use App\Store\AdminStore;
 use Core\UseCases\Admins;
 
 class AdminController extends Controller
@@ -11,9 +11,9 @@ class AdminController extends Controller
     {
         $this->middleware('auth:api');
     }
-    public function index(RealAdminStore $realAdminStore)
+    public function index(AdminStore $AdminStore)
     {
-        $admins = new Admins($realAdminStore);
+        $admins = new Admins($AdminStore);
         $adminsList = $admins->getAll();
         return response()->json($adminsList, 200);
     }

@@ -1,9 +1,7 @@
 <?php
 namespace Core\Interfaces;
 
-use Core\Entities\UserDTO;
-
-interface AdminStore
+interface IAdminStore
 {
     public function getAll();
 }

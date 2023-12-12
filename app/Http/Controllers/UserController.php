@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Store\RealUserStore;
+use App\Store\UserStore;
 use Core\UseCases\Users;
 
 class UserController extends Controller
@@ -13,16 +13,16 @@ class UserController extends Controller
         $this->middleware('auth:api', ['except' => ['register']]);
     }
 
-    public function index(RealUserStore $realUserStore)
+    public function index(UserStore $UserStore)
     {
-        $users = new Users($realUserStore);
+        $users = new Users($UserStore);
         return $users->getAll();
     }
 
-    public function register(Request $request, RealUserStore $realUserStore)
+    public function register(Request $request, UserStore $UserStore)
     {
         try {
-            $users = new Users($realUserStore);
+            $users = new Users($UserStore);
             $registeredUser = $users->register($request->all());
             return response()->json([
                 'message' => 'Successfully created',
@@ -35,16 +35,16 @@ class UserController extends Controller
             ], 409);
         }
     }
-    public function show(string $id, RealUserStore $realUserStore)
+    public function show(string $id, UserStore $UserStore)
     {
-        $users = new Users($realUserStore);
+        $users = new Users($UserStore);
         return $users->getById($id);
     }
 
-    public function update(Request $request, string $id, RealUserStore $realUserStore)
+    public function update(Request $request, string $id, UserStore $UserStore)
     {
         try {
-            $users = new Users($realUserStore);
+            $users = new Users($UserStore);
             $users->update($request->all(), $id);
             return response()->json([
                 "message" => "User updated successfully",
@@ -56,9 +56,9 @@ class UserController extends Controller
         }
     }
 
-    public function destroy(string $id,RealUserStore $realUserStore)
+    public function destroy(string $id,UserStore $UserStore)
     {
-        $users = new Users($realUserStore);
+        $users = new Users($UserStore);
         if ($users->delete($id)) {
             return response()->json([
                 "message" => "User deleted successfully",
