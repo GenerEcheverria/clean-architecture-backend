@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Store\UserStore;
 use Core\UseCases\Users;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     private Users $users;
+
     public function __construct(UserStore $userStore)
     {
         $this->middleware('auth:api', ['except' => ['register']]);
@@ -24,17 +25,19 @@ class UserController extends Controller
     {
         try {
             $registeredUser = $this->users->register($request->all());
+
             return response()->json([
                 'message' => 'Successfully created',
-                'user' => $registeredUser
+                'user' => $registeredUser,
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'User Registration Failed!',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 409);
         }
     }
+
     public function show(string $id)
     {
         return $this->users->getById($id);
@@ -44,12 +47,13 @@ class UserController extends Controller
     {
         try {
             $this->users->update($request->all(), $id);
+
             return response()->json([
-                "message" => "User updated successfully",
+                'message' => 'User updated successfully',
             ], 200);
         } catch (\Exception $error) {
             return response()->json([
-                "error" => "User not found out",
+                'error' => 'User not found out',
             ], 404);
         }
     }
@@ -58,11 +62,11 @@ class UserController extends Controller
     {
         if ($this->users->delete($id)) {
             return response()->json([
-                "message" => "User deleted successfully",
+                'message' => 'User deleted successfully',
             ], 202);
         } else {
             return response()->json([
-                "error" => "User not found",
+                'error' => 'User not found',
             ], 404);
         }
     }
@@ -72,8 +76,7 @@ class UserController extends Controller
         return $this->users->getUserData();
     }
 
-
-   //PARECE QUE NO SE USAN
+    //PARECE QUE NO SE USAN
 
     // public function getSitesForUser($userId)
     // {

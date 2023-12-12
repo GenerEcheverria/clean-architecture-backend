@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Store;
 
 use App\Models\User;
@@ -11,6 +12,7 @@ class AdminStore implements IAdminStore
         $admins = User::select('id', 'name')
             ->where('role', 'Client')
             ->get();
+
         return $admins;
     }
 }

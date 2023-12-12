@@ -1,11 +1,10 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Store\AuthStore;
 use Core\UseCases\Auths;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -37,10 +36,11 @@ class AuthController extends Controller
     {
         try {
             $user = $this->auths->checkToken();
-            
-            if (!$user) {
+
+            if (! $user) {
                 return response()->json(['valid' => false], 401);
             }
+
             return response()->json(['valid' => true], 200);
         } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
             return response()->json(['valid' => false], 401);
@@ -54,6 +54,7 @@ class AuthController extends Controller
     public function logout()
     {
         $this->auths->logout();
+
         return response()->json(['response' => 'Successfully logged out'], 200);
     }
 }

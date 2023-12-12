@@ -2,16 +2,16 @@
 
 namespace App\Store;
 
-use App\Models\Site;
-use Illuminate\Support\Facades\DB;
 use App\Models\Body;
-use App\Models\Text;
-use App\Models\Image;
-use App\Models\Video;
-use App\Models\Header;
 use App\Models\Footer;
+use App\Models\Header;
+use App\Models\Image;
+use App\Models\Site;
+use App\Models\Text;
 use App\Models\User;
+use App\Models\Video;
 use Core\Interfaces\ISiteStore;
+use Illuminate\Support\Facades\DB;
 
 class SiteStore implements ISiteStore
 {
@@ -22,13 +22,13 @@ class SiteStore implements ISiteStore
 
     public function isSiteStored(int $id): bool
     {
-        return Site::where("id", $id)->exists();
+        return Site::where('id', $id)->exists();
     }
 
     public function updateState(int $id, string $state)
     {
         $site = Site::find($id);
-        $site->state =  $state;
+        $site->state = $state;
         $site->save();
     }
 
@@ -41,7 +41,7 @@ class SiteStore implements ISiteStore
                 'backgroundColor' => $siteInput['newCrearSitio']['backgroundColor'],
                 'views' => $siteInput['newCrearSitio']['views'],
                 'url' => $siteInput['newCrearSitio']['url'],
-                'state' => 'publicada'
+                'state' => 'publicada',
             ];
             DB::beginTransaction();
             $site = Site::create($siteData);
@@ -69,7 +69,7 @@ class SiteStore implements ISiteStore
                             'titleText' => $item['full']['text']['title'],
                             'positionTitle' => $item['full']['text']['position'],
                             'text' => $item['full']['text']['text'],
-                            'positionText' => $item['full']['text']['alignment']
+                            'positionText' => $item['full']['text']['alignment'],
                         ];
                         $text = Text::create($textData);
                         $body->idType = $text->id;
@@ -82,7 +82,7 @@ class SiteStore implements ISiteStore
                             'idCol' => $body->id,
                             'url' => $item['full']['image']['image'],
                             'size' => $item['full']['image']['size'],
-                            'text' => $item['full']['image']['caption']
+                            'text' => $item['full']['image']['caption'],
                         ];
                         $image = Image::create($imageData);
                         $body->idType = $image->id;
@@ -94,7 +94,7 @@ class SiteStore implements ISiteStore
                         $videoData = [
                             'idCol' => $body->id,
                             'url' => $item['full']['video']['video'],
-                            'size' => $item['full']['video']['size']
+                            'size' => $item['full']['video']['size'],
                         ];
                         $video = Video::create($videoData);
                         $body->idType = $video->id;
@@ -109,7 +109,7 @@ class SiteStore implements ISiteStore
                             'titleText' => $item['left']['text']['title'],
                             'positionTitle' => $item['left']['text']['position'],
                             'text' => $item['left']['text']['text'],
-                            'positionText' => $item['left']['text']['alignment']
+                            'positionText' => $item['left']['text']['alignment'],
                         ];
                         $text = Text::create($textData);
                         $body->idType = $text->id;
@@ -122,7 +122,7 @@ class SiteStore implements ISiteStore
                             'idCol' => $body->id,
                             'url' => $item['left']['image']['image'],
                             'size' => $item['left']['image']['size'],
-                            'text' => $item['left']['image']['caption']
+                            'text' => $item['left']['image']['caption'],
                         ];
                         $image = Image::create($imageData);
                         $body->idType = $image->id;
@@ -134,7 +134,7 @@ class SiteStore implements ISiteStore
                         $videoData = [
                             'idCol' => $body->id,
                             'url' => $item['left']['video']['video'],
-                            'size' => $item['left']['video']['size']
+                            'size' => $item['left']['video']['size'],
                         ];
                         $video = Video::create($videoData);
                         $body->idType = $video->id;
@@ -148,7 +148,7 @@ class SiteStore implements ISiteStore
                             'titleText' => $item['right']['text']['title'],
                             'positionTitle' => $item['right']['text']['position'],
                             'text' => $item['right']['text']['text'],
-                            'positionText' => $item['right']['text']['alignment']
+                            'positionText' => $item['right']['text']['alignment'],
                         ];
                         $text = Text::create($textData);
                         $body->idType2 = $text->id;
@@ -161,7 +161,7 @@ class SiteStore implements ISiteStore
                             'idCol' => $body->id,
                             'url' => $item['right']['image']['image'],
                             'size' => $item['right']['image']['size'],
-                            'text' => $item['right']['image']['caption']
+                            'text' => $item['right']['image']['caption'],
                         ];
                         $image = Image::create($imageData);
                         $body->idType2 = $image->id;
@@ -173,7 +173,7 @@ class SiteStore implements ISiteStore
                         $videoData = [
                             'idCol' => $body->id,
                             'url' => $item['right']['video']['video'],
-                            'size' => $item['right']['video']['size']
+                            'size' => $item['right']['video']['size'],
                         ];
                         $video = Video::create($videoData);
                         $body->idType2 = $video->id;
@@ -207,19 +207,22 @@ class SiteStore implements ISiteStore
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            throw new \Exception("Error during site creation: " . $e->getMessage(), 500);
+            throw new \Exception('Error during site creation: '.$e->getMessage(), 500);
         }
     }
 
     public function getSitesForCurrentUser($user)
     {
         $sites = $user->sites;
+
         return $sites;
     }
+
     public function getSitesByUser($userId)
     {
         $user = User::findOrFail($userId);
         $sites = $user->sites;
+
         return $sites;
     }
 
@@ -242,6 +245,7 @@ class SiteStore implements ISiteStore
         $bodies = $site->bodies;
         $site = Site::with('bodies.texts', 'bodies.images', 'bodies.videos', 'headers', 'footers')
             ->findOrFail($id);
+
         return $site;
     }
 }

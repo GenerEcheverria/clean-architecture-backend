@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Body extends Model
 {
     use HasFactory;
-    protected  $fillable = [
+
+    protected $fillable = [
         'idSite',
         'indexPage',
         'type',
         'idtype',
         'type2',
-        'idtype2'
+        'idtype2',
     ];
 
     protected $table = 'bodies';
@@ -23,6 +24,7 @@ class Body extends Model
     {
         return $this->belongsTo(Site::class, 'idSite');
     }
+
     public function texts()
     {
         return $this->hasMany(Text::class, 'idCol');

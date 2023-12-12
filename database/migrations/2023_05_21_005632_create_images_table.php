@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedInteger('idCol');
             $table->foreign('idCol')->references('id')->on('bodies')->onDelete('cascade');
             $table->string('url');
-            $table->enum('size', ['medium', 'small', 'big']); 
+            $table->enum('size', ['medium', 'small', 'big']);
             $table->string('text')->nullable();
             $table->timestamps();
         });

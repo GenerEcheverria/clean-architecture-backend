@@ -9,7 +9,7 @@ class Footer extends Model
 {
     use HasFactory;
 
-    protected  $fillable = [
+    protected $fillable = [
         'idSite',
         'backgroundColor',
         'textColor',
@@ -25,7 +25,7 @@ class Footer extends Model
         'phone',
         'setExtra',
         'text',
-        'image'
+        'image',
     ];
 
     protected $table = 'footers';

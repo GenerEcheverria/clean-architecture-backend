@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Site extends Model
 {
     use HasFactory;
-    protected  $fillable = [
-        'name', 'backgroundColor','views', 'idUser', 'url', 'state'
+
+    protected $fillable = [
+        'name', 'backgroundColor', 'views', 'idUser', 'url', 'state',
     ];
 
     protected $table = 'sites';
@@ -18,13 +19,14 @@ class Site extends Model
     {
         return $this->hasMany(Body::class, 'idSite');
     }
+
     public function headers()
     {
         return $this->hasMany(Header::class, 'idSite');
     }
+
     public function footers()
     {
         return $this->hasMany(Footer::class, 'idSite');
     }
-    
 }

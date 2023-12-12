@@ -42,13 +42,13 @@ class Users
     public function update(array $userData, $id)
     {
         $user = $this->userStore->getById($id);
-        if (isset($userData["client"]["name"])) {
-            $user->name =  $userData["client"]["name"];
-            $user->email =  $userData["client"]["email"];
-            $user->phone =  $userData["client"]["phone"];
+        if (isset($userData['client']['name'])) {
+            $user->name = $userData['client']['name'];
+            $user->email = $userData['client']['email'];
+            $user->phone = $userData['client']['phone'];
         }
-        if (isset($userData["client"]["newPassword"])) {
-            $user->password = bcrypt($userData["client"]["newPassword"]);
+        if (isset($userData['client']['newPassword'])) {
+            $user->password = bcrypt($userData['client']['newPassword']);
         }
         $userDTO = new UserDTO(
             $user->name,
@@ -60,7 +60,8 @@ class Users
         $this->userStore->update($userDTO, $id);
     }
 
-    public function delete($id): bool{
+    public function delete($id): bool
+    {
         return $this->userStore->delete($id);
     }
 

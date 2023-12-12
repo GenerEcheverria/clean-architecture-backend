@@ -8,15 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Text extends Model
 {
     use HasFactory;
-    protected  $fillable = [
+
+    protected $fillable = [
         'idCol',
         'titleText',
         'positionTitle',
         'text',
-        'positionText'
+        'positionText',
     ];
 
     protected $table = 'texts';
+
     public function body()
     {
         return $this->belongsTo(Body::class, 'idCol');

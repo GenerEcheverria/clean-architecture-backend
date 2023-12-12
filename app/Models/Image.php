@@ -8,14 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Image extends Model
 {
     use HasFactory;
-    protected  $fillable = [
+
+    protected $fillable = [
         'idCol',
         'url',
         'size',
-        'text'
+        'text',
     ];
 
     protected $table = 'images';
+
     public function body()
     {
         return $this->belongsTo(Body::class, 'idCol');

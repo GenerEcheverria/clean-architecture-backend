@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
     public function up(): void
     {
         Schema::create('headers', function (Blueprint $table) {
@@ -14,8 +13,8 @@ return new class extends Migration
             $table->unsignedInteger('idSite');
             $table->foreign('idSite')->references('id')->on('sites')->onDelete('cascade');
             $table->string('title');
-            $table->enum('size', ['medium', 'small', 'big']); 
-            $table->enum('position',['left', 'right', 'center']);
+            $table->enum('size', ['medium', 'small', 'big']);
+            $table->enum('position', ['left', 'right', 'center']);
             $table->string('color');
             $table->string('image')->nullable();
             $table->boolean('hero');

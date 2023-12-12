@@ -1,8 +1,9 @@
 <?php
+
 namespace App\Store;
 
-use Core\Entities\UserDTO;
 use App\Models\User;
+use Core\Entities\UserDTO;
 use Core\Interfaces\IUserStore;
 
 class UserStore implements IUserStore
@@ -11,6 +12,7 @@ class UserStore implements IUserStore
     {
         return User::all();
     }
+
     public function save(UserDTO $client): void
     {
         $userAttributes = [
@@ -34,7 +36,8 @@ class UserStore implements IUserStore
         return User::where('id', $id)->exists();
     }
 
-    public function update(UserDTO $client, $id) {
+    public function update(UserDTO $client, $id)
+    {
         $user = User::find($id);
         $user->name = $client->name;
         $user->email = $client->email;
@@ -48,12 +51,15 @@ class UserStore implements IUserStore
         if (User::where('id', $id)->exists()) {
             $user = User::find($id);
             $user->delete();
+
             return true;
         }
+
         return false;
     }
-    
-    public function getUserData(){
+
+    public function getUserData()
+    {
         return response()->json(auth()->user());
     }
 }
